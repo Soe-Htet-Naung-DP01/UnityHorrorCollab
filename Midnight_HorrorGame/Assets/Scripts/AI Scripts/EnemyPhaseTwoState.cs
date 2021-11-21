@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPhaseTwoState : MonoBehaviour
+public class EnemyPhaseTwoState : EnemyBaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void EnterState(EnemyStateManager enemy)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnCollisionEnter(EnemyStateManager enemy)
     {
-        
+
+    }
+
+    public override void UpdateState(EnemyStateManager enemy)
+    {
+
     }
 }
