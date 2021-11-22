@@ -10,6 +10,10 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyPhaseTwoState PhaseTwo = new EnemyPhaseTwoState();
     public EnemyPhaseThreeState PhaseThree = new EnemyPhaseThreeState();
 
+    public GameObject player;
+
+    Vector3 OriginalPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +22,14 @@ public class EnemyStateManager : MonoBehaviour
 
         // enters the current state
         currentState.EnterState(this);
+
+        // stores the original position of the cube
+        OriginalPosition = transform.position;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        currentState.OnCollisionEnter(this, collision);
     }
 
     // Update is called once per frame

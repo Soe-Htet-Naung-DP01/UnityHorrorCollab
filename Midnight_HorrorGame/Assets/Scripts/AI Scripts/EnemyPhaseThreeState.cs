@@ -7,7 +7,7 @@ public class EnemyPhaseThreeState : EnemyBaseState
         Debug.Log("Entered phase 3");
     }
 
-    public override void OnCollisionEnter(EnemyStateManager enemy)
+    public override void OnCollisionEnter(EnemyStateManager enemy, Collision collision)
     {
 
     }
