@@ -6,9 +6,9 @@ public class EnemyStateManager : MonoBehaviour
 {
 
     EnemyBaseState currentState;
-    EnemyPhaseOneState PhaseOne = new EnemyPhaseOneState();
-    EnemyPhaseTwoState PhaseTwo = new EnemyPhaseTwoState();
-    EnemyPhaseThreeState PhaseThree = new EnemyPhaseThreeState();
+    public EnemyPhaseOneState PhaseOne = new EnemyPhaseOneState();
+    public EnemyPhaseTwoState PhaseTwo = new EnemyPhaseTwoState();
+    public EnemyPhaseThreeState PhaseThree = new EnemyPhaseThreeState();
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +23,14 @@ public class EnemyStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // carries out the updatestate function of the current Phase
+        currentState.UpdateState(this);
+    }
+
+    public void SwitchState(EnemyBaseState state)
+    {
+        // enter the state that is put into the argument (PhaseOne, PhaseTwo etc etc)
+        currentState = state;
+        state.EnterState(this);
     }
 }
