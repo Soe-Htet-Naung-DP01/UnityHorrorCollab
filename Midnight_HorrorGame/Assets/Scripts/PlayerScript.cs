@@ -9,9 +9,9 @@ public class PlayerScript : MonoBehaviour
     public bool canPray = true;// pray avialablilty
     public bool isProtectedByPray = false;// being protected by pray
     private float grantedPrayProtectionTime = 7f;//buff Duration
-    public float prayTimer = 0;
+    public float prayTimer = 0; // it is what it sounds like
     private float prayDuration = 4f;// currently not in use
-    private float prayCooldown = 10f;
+    private float prayCooldown = 10f; // again it is what it sounds like
 
     //Salt Circle Related Variables
     public bool isProctected = false;//set to public to see the update status in Inspector;
