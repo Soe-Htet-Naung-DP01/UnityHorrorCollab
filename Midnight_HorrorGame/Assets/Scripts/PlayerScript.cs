@@ -6,11 +6,11 @@ public class PlayerScript : MonoBehaviour
 {
     //Def System Pray
     public bool isPraying = false; // for later use, like casting time.
-    public bool canPray = true;
-    public bool isProtectedByPray = false;
-    private float grantedPrayProtectionTime = 7f;
+    public bool canPray = true;// pray avialablilty
+    public bool isProtectedByPray = false;// being protected by pray
+    private float grantedPrayProtectionTime = 7f;//buff Duration
     public float prayTimer = 0;
-    private float prayDuration = 4f;
+    private float prayDuration = 4f;// currently not in use
     private float prayCooldown = 10f;
 
     //Salt Circle Related Variables
@@ -33,7 +33,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Pray()
     {
-        if(prayTimer <= 0)
+        if(prayTimer <= 0) //check if under cooldown
         {
             canPray = true;
         }
@@ -50,7 +50,7 @@ public class PlayerScript : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            if (canPray == true)
+            if (canPray == true) //start praying
             {
                 Debug.Log("is Praying");
                 prayTimer = prayCooldown;
@@ -66,7 +66,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    private IEnumerator PrayProtectionTimeCount()
+    private IEnumerator PrayProtectionTimeCount()//pray buff timer
     {
 
         yield return new WaitForSeconds(grantedPrayProtectionTime);
@@ -91,7 +91,7 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "saltCircle")
+        if(other.tag == "saltCircle") //check if entered into salt circle
         {
             Debug.Log("Player is now protected");
             isProctected = true;
@@ -100,7 +100,7 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "saltCircle")
+        if (other.tag == "saltCircle") //check if exited into salt circle
         {
             Debug.Log("Player is no longer protected");
             isProctected = false;
