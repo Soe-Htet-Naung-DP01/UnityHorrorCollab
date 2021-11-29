@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CinemachineTarget
   - saltCircle
+  - Candle
+  - Ghost
   layers:
   - Default
   - TransparentFX
