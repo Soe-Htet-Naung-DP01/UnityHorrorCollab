@@ -28,6 +28,7 @@ public class PlayerScript : MonoBehaviour
     public bool hasItemTwo = false;
     public bool hasItemThree = false;
     public bool hasItemFour = false;
+    public bool gainedAllItems = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,7 @@ public class PlayerScript : MonoBehaviour
     {
         Pray();
         PTimeCount();
+        CheckItemGain();
     }
 
     private void Pray()
@@ -78,6 +80,17 @@ public class PlayerScript : MonoBehaviour
 
     }
 
+    void CheckItemGain() // Check if player has gained all the required items for one of the winning condition
+    {
+        if(hasItemOne == true && hasItemTwo == true && hasItemThree == true && hasItemFour ==true)
+        {
+            gainedAllItems = true;
+        }
+        else
+        {
+            gainedAllItems = false;
+        }
+    }
     private IEnumerator PrayProtectionTimeCount()//pray buff timer
     {
 
@@ -134,7 +147,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
+ 
 
 private void OnTriggerExit(Collider other)
     {
