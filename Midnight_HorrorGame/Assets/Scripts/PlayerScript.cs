@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -18,10 +19,21 @@ public class PlayerScript : MonoBehaviour
     public float protectedTime = 0;
     private float maxPTime = 10f; // Time allowed for the player to stay inside of salt circle
 
+    //Collection System Related Variables
+    public Image itemImageOne;
+    public Image itemImageTwo;
+    public Image itemImageThree;
+    public Image itemImageFour;
+    public bool hasItemOne = false;
+    public bool hasItemTwo = false;
+    public bool hasItemThree = false;
+    public bool hasItemFour = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
+
     }
 
     // Update is called once per frame
@@ -96,9 +108,35 @@ public class PlayerScript : MonoBehaviour
             Debug.Log("Player is now protected");
             isProctected = true;
         }
+        if(other.tag == "ItemOne")
+        {
+            Debug.Log("Collected Item One");
+            hasItemOne = true;
+            itemImageOne.color = new Color (itemImageOne.color.r, itemImageOne.color.b, itemImageOne.color.g, 1f);
+        }
+        if (other.tag == "ItemTwo")
+        {
+            Debug.Log("Collected Item Two");
+            hasItemTwo = true;
+            itemImageTwo.color = new Color(itemImageTwo.color.r, itemImageTwo.color.b, itemImageTwo.color.g, 1f);
+        }
+        if (other.tag == "ItemThree")
+        {
+            Debug.Log("Collected Item Three");
+            hasItemThree = true;
+            itemImageThree.color = new Color(itemImageThree.color.r, itemImageThree.color.b, itemImageThree.color.g, 1f);
+        }
+        if (other.tag == "ItemFour")
+        {
+            Debug.Log("Collected Item Four");
+            hasItemFour = true;
+            itemImageFour.color = new Color(itemImageFour.color.r, itemImageFour.color.b, itemImageFour.color.g, 1f);
+        }
     }
 
-    private void OnTriggerExit(Collider other)
+
+
+private void OnTriggerExit(Collider other)
     {
         if (other.tag == "saltCircle") //check if exited into salt circle
         {

@@ -8,6 +8,10 @@ TagManager:
   - saltCircle
   - Candle
   - Ghost
+  - ItemOne
+  - ItemTwo
+  - ItemThree
+  - ItemFour
   layers:
   - Default
   - TransparentFX
