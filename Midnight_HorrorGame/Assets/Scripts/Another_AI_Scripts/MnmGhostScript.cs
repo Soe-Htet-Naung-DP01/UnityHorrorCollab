@@ -15,8 +15,7 @@ public class MnmGhostScript : MonoBehaviour
     //Getting Variables From Another Script
 
     //Ghost/MidNightMan's Attributes
-    public float gSpeed = 5f;
-    public float gDash = 1.5f;
+
 
     //PhaseControl
     public float phaseTimer = 0;
@@ -46,6 +45,7 @@ public class MnmGhostScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         PhaseChanger();  
     }
 
@@ -103,5 +103,7 @@ public class MnmGhostScript : MonoBehaviour
             timer = 0;
         }
     }
+
+ 
 
 }
