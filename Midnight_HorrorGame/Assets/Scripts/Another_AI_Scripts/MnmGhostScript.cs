@@ -19,7 +19,7 @@ public class MnmGhostScript : MonoBehaviour
 
     //Getting Access to Another Script
     private PlayerScript _playerScript;
-
+    public GameObject playerObject;
     //Ghost/MidNightMan's Attributes
 
 
@@ -33,7 +33,7 @@ public class MnmGhostScript : MonoBehaviour
     public float wanderRadius = 10f;
     public float wanderTimer = 10f;
     public float w_timer = 0;
-    public Transform target;
+    public Transform traget;
     public NavMeshAgent agentEnemy;
     
 
@@ -45,6 +45,7 @@ public class MnmGhostScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _playerScript = playerObject.GetComponent<PlayerScript>();
         agentEnemy = GetComponent<NavMeshAgent>();
         w_timer = wanderTimer; // for AI to start moving as soon as the game starts
         currentPhaseText.text = " ";

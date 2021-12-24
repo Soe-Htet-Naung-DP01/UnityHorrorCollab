@@ -20,7 +20,7 @@ public class PlayerScript : MonoBehaviour
     private float maxPTime = 10f; // Time allowed for the player to stay inside of salt circle
 
     //Collection System Related Variables
-    public int totalCollectedItem;
+    public int totalCollectedItem = 0;
     public Image itemImageOne;
     public Image itemImageTwo;
     public Image itemImageThree;

@@ -1260,6 +1260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPhaseText: {fileID: 640205868}
+  playerObject: {fileID: 1927724016}
   phaseTimer: 0
   phaseOne: 1
   phaseTwo: 0
@@ -1267,7 +1268,7 @@ MonoBehaviour:
   wanderRadius: 10
   wanderTimer: 10
   w_timer: 0
-  target: {fileID: 1927724023}
+  traget: {fileID: 0}
   agentEnemy: {fileID: 1518352202}
 --- !u!195 &1518352202
 NavMeshAgent:
@@ -1570,11 +1571,6 @@ MonoBehaviour:
   hasItemThree: 0
   hasItemFour: 0
   gainedAllItems: 0
---- !u!4 &1927724023 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
-  m_PrefabInstance: {fileID: 2038078842}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1964431589
 GameObject:
   m_ObjectHideFlags: 0
