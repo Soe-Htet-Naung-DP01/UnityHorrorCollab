@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 
 public class MnmGhostScript : MonoBehaviour
@@ -12,7 +13,12 @@ public class MnmGhostScript : MonoBehaviour
     //P3 ---> Destory Salt Circles and Make Pray ineffective by Chance. 
     //      ---> Blink Positions
 
-    //Getting Variables From Another Script
+
+    //UIs for testing purposes
+    public Text currentPhaseText;
+
+    //Getting Access to Another Script
+    private PlayerScript _playerScript;
 
     //Ghost/MidNightMan's Attributes
 
@@ -26,9 +32,10 @@ public class MnmGhostScript : MonoBehaviour
     //Phase One Variables
     public float wanderRadius = 10f;
     public float wanderTimer = 10f;
-    public float timer = 0;
+    public float w_timer = 0;
     public Transform target;
     public NavMeshAgent agentEnemy;
+    
 
     //Phase Two Variables
 
@@ -39,29 +46,31 @@ public class MnmGhostScript : MonoBehaviour
     void Start()
     {
         agentEnemy = GetComponent<NavMeshAgent>();
-        timer = wanderTimer; // for AI to start moving as soon as the game starts  
+        w_timer = wanderTimer; // for AI to start moving as soon as the game starts
+        currentPhaseText.text = " ";
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        PhaseChanger();  
+        PhaseConditionsChecker();
     }
 
     void PhaseOne()
     {
+        agentEnemy.speed = 3.5f;
         WanderAround();
     }
 
     void PhaseTwo()
     {
-
+        agentEnemy.speed = 4f;
     }
 
     void PhaseThree()
     {
-
+        agentEnemy.speed = 5f;
     }
 
     void PhaseChanger() //it does what it sounds like
@@ -69,14 +78,28 @@ public class MnmGhostScript : MonoBehaviour
         if(phaseOne == true && phaseTwo == false && phaseThree == false)
         {
             PhaseOne();
+            currentPhaseText.text = "Phase ONE";
         }
         if (phaseOne == false  && phaseTwo == true && phaseThree == false)
         {
             PhaseTwo();
+            currentPhaseText.text = "Phase TWO";
         }
         if (phaseOne == false && phaseTwo == false && phaseThree == true)
         {
             PhaseThree();
+            currentPhaseText.text = "Phase Three";
+        }
+    }
+
+    void PhaseConditionsChecker() // determine why and when a phase should be changed.
+    {
+        if(_playerScript.totalCollectedItem <= 2)
+        {
+            phaseOne = true;
+            phaseTwo = false;
+            phaseThree = false;
+            PhaseChanger();
         }
     }
 
@@ -94,13 +117,13 @@ public class MnmGhostScript : MonoBehaviour
     }
     void WanderAround() //Enemy AI moves around every 10secs to a random position.
     {
-        timer += Time.deltaTime;
+        w_timer += Time.deltaTime;
 
-        if (timer >= wanderTimer)
+        if (w_timer >= wanderTimer)
         {
             Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
             agentEnemy.SetDestination(newPos);
-            timer = 0;
+            w_timer = 0;
         }
     }
 

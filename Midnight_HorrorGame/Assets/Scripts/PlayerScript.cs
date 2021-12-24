@@ -20,6 +20,7 @@ public class PlayerScript : MonoBehaviour
     private float maxPTime = 10f; // Time allowed for the player to stay inside of salt circle
 
     //Collection System Related Variables
+    public int totalCollectedItem;
     public Image itemImageOne;
     public Image itemImageTwo;
     public Image itemImageThree;
@@ -33,7 +34,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        totalCollectedItem = 0;
 
     }
 
@@ -125,24 +126,28 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log("Collected Item One");
             hasItemOne = true;
+            totalCollectedItem += 1;
             itemImageOne.color = new Color (itemImageOne.color.r, itemImageOne.color.b, itemImageOne.color.g, 1f);
         }
         if (other.tag == "ItemTwo")
         {
             Debug.Log("Collected Item Two");
             hasItemTwo = true;
+            totalCollectedItem += 1;
             itemImageTwo.color = new Color(itemImageTwo.color.r, itemImageTwo.color.b, itemImageTwo.color.g, 1f);
         }
         if (other.tag == "ItemThree")
         {
             Debug.Log("Collected Item Three");
             hasItemThree = true;
+            totalCollectedItem += 1;
             itemImageThree.color = new Color(itemImageThree.color.r, itemImageThree.color.b, itemImageThree.color.g, 1f);
         }
         if (other.tag == "ItemFour")
         {
             Debug.Log("Collected Item Four");
             hasItemFour = true;
+            totalCollectedItem += 1;
             itemImageFour.color = new Color(itemImageFour.color.r, itemImageFour.color.b, itemImageFour.color.g, 1f);
         }
     }
