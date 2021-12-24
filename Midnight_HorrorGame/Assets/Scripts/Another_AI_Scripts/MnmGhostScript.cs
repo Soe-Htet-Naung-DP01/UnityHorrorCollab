@@ -94,11 +94,25 @@ public class MnmGhostScript : MonoBehaviour
 
     void PhaseConditionsChecker() // determine why and when a phase should be changed.
     {
-        if(_playerScript.totalCollectedItem <= 2)
+        if(_playerScript.totalCollectedItem < 2)
         {
             phaseOne = true;
             phaseTwo = false;
             phaseThree = false;
+            PhaseChanger();
+        }
+        else if(_playerScript.totalCollectedItem == 2)
+        {
+            phaseOne = false;
+            phaseTwo = true;
+            phaseThree = false;
+            PhaseChanger();
+        }
+        else if(_playerScript.totalCollectedItem >= 3)
+        {
+            phaseOne = false;
+            phaseTwo = false;
+            phaseThree = true;
             PhaseChanger();
         }
     }
