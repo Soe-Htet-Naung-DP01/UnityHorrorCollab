@@ -582,6 +582,85 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d493f3be0598bd4c961e58dfe6288e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &640205867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 640205870}
+  - component: {fileID: 640205869}
+  - component: {fileID: 640205868}
+  m_Layer: 5
+  m_Name: PhaseNumText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &640205868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640205867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.2659363, b: 0.9150943, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 35
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &640205869
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640205867}
+  m_CullTransparentMesh: 1
+--- !u!224 &640205870
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640205867}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1235316823}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 26.7, y: -48}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &662288975
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,6 +1142,7 @@ RectTransform:
   - {fileID: 1292710780}
   - {fileID: 271536518}
   - {fileID: 518150375}
+  - {fileID: 640205870}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1179,15 +1259,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2551f713dff7ed408ea0b91c6a1bfac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gSpeed: 5
-  gDash: 1.5
+  currentPhaseText: {fileID: 640205868}
   phaseTimer: 0
   phaseOne: 1
   phaseTwo: 0
   phaseThree: 0
   wanderRadius: 10
   wanderTimer: 10
-  timer: 0
+  w_timer: 0
   target: {fileID: 1927724023}
   agentEnemy: {fileID: 1518352202}
 --- !u!195 &1518352202
@@ -1481,6 +1560,7 @@ MonoBehaviour:
   prayTimer: 0
   isProctected: 0
   protectedTime: 0
+  totalCollectedItem: 0
   itemImageOne: {fileID: 715910964}
   itemImageTwo: {fileID: 1292710781}
   itemImageThree: {fileID: 271536519}
@@ -1863,7 +1943,7 @@ PrefabInstance:
     - target: {fileID: 6448189327515082455, guid: 74ac3215d1c64ab40b08c89ec73caa94, type: 3}
       propertyPath: ghostPosition
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1518352206}
     - target: {fileID: 6448189327515082456, guid: 74ac3215d1c64ab40b08c89ec73caa94, type: 3}
       propertyPath: m_Name
       value: Candle
