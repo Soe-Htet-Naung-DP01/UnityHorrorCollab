@@ -22,7 +22,6 @@ public class MnmGhostScript : MonoBehaviour
     public GameObject playerObject;
     //Ghost/MidNightMan's Attributes
 
-
     //PhaseControl
     public float phaseTimer = 0;
     public bool phaseOne = true;
@@ -33,14 +32,14 @@ public class MnmGhostScript : MonoBehaviour
     public float wanderRadius = 10f;
     public float wanderTimer = 10f;
     public float w_timer = 0;
+    public float detectionRange = 5f;
     public Transform traget;
     public NavMeshAgent agentEnemy;
-    
+
 
     //Phase Two Variables
 
     //Phase Three Variables
-
 
     // Start is called before the first frame update
     void Start()
@@ -54,8 +53,16 @@ public class MnmGhostScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        PhaseConditionsChecker();
+        // checks if the monster has detected or seen the player
+        // if true, the monster will go to the players location no matter what, then it checks again after that if it can see the player again
+        // if false and not going to the players last seen location, then it will do its phase activities
+        if (!PlayerDetection()) {
+            PhaseConditionsChecker();
+        }
+        else
+        {
+            TargetPlayer();
+        }
     }
 
     void PhaseOne()
@@ -142,6 +149,41 @@ public class MnmGhostScript : MonoBehaviour
         }
     }
 
- 
+    // first checks if the player can be seen and then checks if the player is within the sight detection range
+    // returns information if the player can be seen by the Midnight Man
+    bool PlayerDetection()
+    {
+        float distanceFromPlayer = Vector3.Distance(playerObject.transform.position, transform.position);
+        Vector3 rayDirection = playerObject.transform.position - transform.position;
 
+        // Debug code to see how the raycast works
+        // Debug.DrawRay(transform.position, (rayDirection.normalized + new Vector3(0f, 0.05f, 0f)) * 100);
+
+        if (Physics.Raycast(transform.position, rayDirection.normalized, out RaycastHit hit))
+        {
+            if (hit.transform.tag == "Player")
+            {
+                if (distanceFromPlayer >= detectionRange)
+                {
+                    return false; // Player can be seen but too far
+                }
+                else
+                {
+                    return true; // Player can be seen
+                }
+            }
+            else
+            {
+                return false; // Player cannot be seen
+            }
+        }
+        return false;
+    }
+
+    // follows the player if the player can be detected
+    void TargetPlayer()
+    {
+        Vector3 playerPosition = playerObject.transform.position;
+        agentEnemy.SetDestination(playerPosition);
+    }
 }
