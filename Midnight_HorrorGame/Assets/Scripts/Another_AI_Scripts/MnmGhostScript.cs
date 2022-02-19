@@ -32,7 +32,7 @@ public class MnmGhostScript : MonoBehaviour
     public float wanderRadius = 10f;
     public float wanderTimer = 10f;
     public float w_timer = 0;
-    public float detectionRange = 5f;
+    public float detectionRange = 10f;
     public Transform traget;
     public NavMeshAgent agentEnemy;
 
@@ -40,6 +40,9 @@ public class MnmGhostScript : MonoBehaviour
     //Phase Two Variables
 
     //Phase Three Variables
+
+    //Targeting Variables
+    public bool isTargetingPlayer = false;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +60,12 @@ public class MnmGhostScript : MonoBehaviour
         // if true, the monster will go to the players location no matter what, then it checks again after that if it can see the player again
         // if false and not going to the players last seen location, then it will do its phase activities
         if (!PlayerDetection()) {
+            // if the monster was targeting the player prior to this, cancel the setdestination command
+            if (isTargetingPlayer)
+            {
+                agentEnemy.ResetPath();
+                isTargetingPlayer = false;
+            }
             PhaseConditionsChecker();
         }
         else
@@ -183,6 +192,7 @@ public class MnmGhostScript : MonoBehaviour
     // follows the player if the player can be detected
     void TargetPlayer()
     {
+        isTargetingPlayer = true;
         Vector3 playerPosition = playerObject.transform.position;
         agentEnemy.SetDestination(playerPosition);
     }
