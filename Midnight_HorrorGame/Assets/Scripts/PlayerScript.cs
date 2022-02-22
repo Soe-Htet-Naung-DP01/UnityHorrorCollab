@@ -19,6 +19,8 @@ public class PlayerScript : MonoBehaviour
     public float protectedTime = 0;
     private float maxPTime = 10f; // Time allowed for the player to stay inside of salt circle
 
+    public GameObject saltcirclePrefab; // for the player to spawn a salt circle
+
     //Collection System Related Variables
     public int totalCollectedItem = 0;
     public Image itemImageOne;
@@ -44,6 +46,11 @@ public class PlayerScript : MonoBehaviour
         Pray();
         PTimeCount();
         CheckItemGain();
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SummonCircle();
+        }
     }
 
     private void Pray()
@@ -152,6 +159,14 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    private void SummonCircle()
+    {
+        if (Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit))
+        {
+            Instantiate(saltcirclePrefab, hit.point, saltcirclePrefab.transform.rotation);
+        }
+    }
+
  
 
 private void OnTriggerExit(Collider other)
@@ -163,3 +178,5 @@ private void OnTriggerExit(Collider other)
         }
     }
 }
+
+
