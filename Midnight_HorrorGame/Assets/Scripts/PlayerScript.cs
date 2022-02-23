@@ -18,7 +18,6 @@ public class PlayerScript : MonoBehaviour
     public bool isProctected = false;//set to public to see the update status in Inspector;
     public float protectedTime = 0;
     private float maxPTime = 10f; // Time allowed for the player to stay inside of salt circle
-
     public GameObject saltcirclePrefab; // for the player to spawn a salt circle
 
     //Collection System Related Variables
@@ -37,7 +36,6 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         totalCollectedItem = 0;
-
     }
 
     // Update is called once per frame
@@ -159,6 +157,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    // places down a salt circle
     private void SummonCircle()
     {
         if (Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit))

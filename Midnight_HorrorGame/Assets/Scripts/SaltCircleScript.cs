@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SaltCircleScript : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class SaltCircleScript : MonoBehaviour
     // how close the circle can be to the midnight man before it gets destroyed immediately
     public float minDistance = 2.0f;
 
+    // used to help rebake the mesh
     public GameObject midnightMan;
 
     // Start is called before the first frame update
@@ -17,13 +19,17 @@ public class SaltCircleScript : MonoBehaviour
     {
         // Destroy circle after a predetermined seconds
         Invoke(nameof(DestroyCircle), circleDuration);
+
         // finds the midnight man game object
         midnightMan = GameObject.FindGameObjectWithTag("Ghost");
+
+        // code for rebaking the navmesh
+        midnightMan.GetComponent<MnmGhostNavMesh>().RefreshNavMesh();
     }
 
     void Update()
     {
-        if (isTooClose())
+        if (IsTooClose())
         {
             DestroyCircle();
         }
@@ -31,10 +37,12 @@ public class SaltCircleScript : MonoBehaviour
 
     void DestroyCircle()
     {
+        GetComponent<NavMeshModifier>().overrideArea = false;
+        midnightMan.GetComponent<MnmGhostNavMesh>().RefreshNavMesh();
         Destroy(gameObject);
     }
 
-    bool isTooClose()
+    bool IsTooClose()
     {
         if (Vector3.Distance(midnightMan.transform.position, this.transform.position) >= minDistance)
         {
@@ -45,4 +53,5 @@ public class SaltCircleScript : MonoBehaviour
             return true;
         }
     }
+
 }
