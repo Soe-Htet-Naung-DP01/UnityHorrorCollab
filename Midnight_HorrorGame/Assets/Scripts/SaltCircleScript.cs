@@ -44,7 +44,7 @@ public class SaltCircleScript : MonoBehaviour
 
     bool IsTooClose()
     {
-        if (Vector3.Distance(midnightMan.transform.position, this.transform.position) >= minDistance)
+        if (Vector3.Distance(midnightMan.transform.position, transform.position) >= minDistance)
         {
             return false;
         }

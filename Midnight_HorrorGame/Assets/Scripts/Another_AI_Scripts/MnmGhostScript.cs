@@ -27,6 +27,8 @@ public class MnmGhostScript : MonoBehaviour
     public bool phaseOne = true;
     public bool phaseTwo = false;
     public bool phaseThree = false;
+    public int currentPhase = 1;
+
 
     //Phase One Variables
     public float wanderRadius = 10f;
@@ -36,8 +38,12 @@ public class MnmGhostScript : MonoBehaviour
     public Transform traget;
     public NavMeshAgent agentEnemy;
 
-
     //Phase Two Variables
+    public float h_timer = 0.0f;
+    public float huntPlayerTime = 10.0f;
+    public float playerHuntChance = 0.1f; // 10% chance to chase player instead of doing a wander
+    public bool isDoingHunt = false; // for use in P2 onwards
+    public bool isWandering = false; // for use in P2 onwards
 
     //Phase Three Variables
 
@@ -56,20 +62,21 @@ public class MnmGhostScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // checks if the monster has detected or seen the player
-        // if true, the monster will go to the players location no matter what, then it checks again after that if it can see the player again
-        // if false and not going to the players last seen location, then it will do its phase activities
+        // checks the current phase before anything else
+        PhaseConditionsChecker(); 
+
+        // if player can be detected, chase player else do the normal Phase activites (wander / hunt player)
         if (!PlayerDetection()) {
-            // if the monster was targeting the player prior to this, cancel the setdestination command
             if (isTargetingPlayer)
             {
                 agentEnemy.ResetPath();
                 isTargetingPlayer = false;
             }
-            PhaseConditionsChecker();
+            PhaseActivities();
         }
         else
         {
+            // Normal play chase
             TargetPlayer();
         }
     }
@@ -77,12 +84,74 @@ public class MnmGhostScript : MonoBehaviour
     void PhaseOne()
     {
         agentEnemy.speed = 3.5f;
+        wanderTimer = 10.0f;
+
         WanderAround();
     }
 
     void PhaseTwo()
     {
+        // from phase 1 variables
         agentEnemy.speed = 4f;
+        wanderTimer = 7.0f;
+        wanderRadius = 15.0f;
+
+        // from phase 2 variables
+        playerHuntChance = 0.1f;
+        huntPlayerTime = 10.0f;
+
+        // finds out if the midnightman is wandering or not
+        if (w_timer + Time.deltaTime >= wanderTimer)
+        {
+            isWandering = false;
+        }
+        else
+        {
+            isWandering = true;
+        }
+
+        // finds out if the midnightman is hunting or not
+        if (h_timer >= huntPlayerTime)
+        {
+            isDoingHunt = false;
+        }
+        else
+        {
+            isDoingHunt = false;
+        }
+
+        Debug.Log("Is midnight man wandering: " + isWandering);
+        Debug.Log("Is midnight man hunting: " + isDoingHunt);
+
+        // if wandering is not active, roll a chance for a hunt, else start wandering instead
+        if (isWandering == false)
+        {
+            if (isDoingHunt == true)
+            {
+                // midnight man is still doing the hunt
+                HuntPhase();
+            }
+            else
+            {
+                if (Random.value > playerHuntChance) // 10% chance to do a hunt
+                {
+                    // midnight man starts doing the hunt
+                    h_timer = 0;
+                    isDoingHunt = true;
+                    HuntPhase();
+                }
+                else
+                {
+                    // midnight man starts doing the wandering
+                    WanderAround();
+                }
+            }
+        }
+        else
+        {
+            // midnight man is still doing the wandering
+            WanderAround();
+        }
     }
 
     void PhaseThree()
@@ -90,22 +159,35 @@ public class MnmGhostScript : MonoBehaviour
         agentEnemy.speed = 5f;
     }
 
+    void PhaseActivities() // checks the current phase number and leads it to the current function
+    {
+        switch (currentPhase)
+        {
+            case 1:
+                PhaseOne();
+                break;
+            case 2:
+                PhaseTwo();
+                break;
+            case 3:
+                PhaseThree();
+                break;
+        }
+    }
+
     void PhaseChanger() //it does what it sounds like
     {
-        if(phaseOne == true && phaseTwo == false && phaseThree == false)
+        switch (currentPhase)
         {
-            PhaseOne();
-            currentPhaseText.text = "Phase ONE";
-        }
-        if (phaseOne == false  && phaseTwo == true && phaseThree == false)
-        {
-            PhaseTwo();
-            currentPhaseText.text = "Phase TWO";
-        }
-        if (phaseOne == false && phaseTwo == false && phaseThree == true)
-        {
-            PhaseThree();
-            currentPhaseText.text = "Phase Three";
+            case 1:
+                currentPhaseText.text = "Phase ONE";
+                break;
+            case 2:
+                currentPhaseText.text = "Phase TWO";
+                break;
+            case 3:
+                currentPhaseText.text = "Phase Three";
+                break;
         }
     }
 
@@ -116,22 +198,23 @@ public class MnmGhostScript : MonoBehaviour
             phaseOne = true;
             phaseTwo = false;
             phaseThree = false;
-            PhaseChanger();
+            currentPhase = 1;
         }
         else if(_playerScript.totalCollectedItem == 2)
         {
             phaseOne = false;
             phaseTwo = true;
             phaseThree = false;
-            PhaseChanger();
+            currentPhase = 2;
         }
         else if(_playerScript.totalCollectedItem >= 3)
         {
             phaseOne = false;
             phaseTwo = false;
             phaseThree = true;
-            PhaseChanger();
+            currentPhase = 3;
         }
+        PhaseChanger();
     }
 
     public static Vector3 RandomNavSphere(Vector3 _origin, float dist, int layermask) //Pick a random point to move using NavMesh.
@@ -146,7 +229,7 @@ public class MnmGhostScript : MonoBehaviour
 
         return navHit.position;
     }
-    void WanderAround() //Enemy AI moves around every 10secs to a random position.
+    void WanderAround() //Enemy AI moves around every "w_timer" time to a random position.
     {
         w_timer += Time.deltaTime;
 
@@ -165,8 +248,7 @@ public class MnmGhostScript : MonoBehaviour
         float distanceFromPlayer = Vector3.Distance(playerObject.transform.position, transform.position);
         Vector3 rayDirection = playerObject.transform.position - transform.position;
 
-        // Debug code to see how the raycast works
-        // Debug.DrawRay(transform.position, (rayDirection.normalized + new Vector3(0f, 0.05f, 0f)) * 100);
+        
 
         if (Physics.Raycast(transform.position, rayDirection.normalized, out RaycastHit hit))
         {
@@ -192,8 +274,16 @@ public class MnmGhostScript : MonoBehaviour
     // follows the player if the player can be detected
     void TargetPlayer()
     {
+        w_timer = 0;
+        h_timer = 0;
+
         isTargetingPlayer = true;
         Vector3 playerPosition = playerObject.transform.position;
         agentEnemy.SetDestination(playerPosition);
+    }
+
+    void HuntPhase()
+    {
+        Debug.Log("In Hunt Phase");
     }
 }

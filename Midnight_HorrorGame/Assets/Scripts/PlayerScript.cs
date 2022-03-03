@@ -166,8 +166,6 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
- 
-
 private void OnTriggerExit(Collider other)
     {
         if (other.tag == "saltCircle") //check if exited into salt circle
